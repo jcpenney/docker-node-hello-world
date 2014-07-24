@@ -1,0 +1,28 @@
+{
+  "name": "docker-node-hello-world",
+  "version": "0.0.0",
+  "description": "\"Hello World\" app for Node.js and Docker.io",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcpenney/docker-node-hello-world"
+  },
+  "keywords": [
+    "docker",
+    "node",
+    "hello",
+    "world",
+    "mongo"
+  ],
+  "author": "JCP Innovation",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/jcpenney/docker-node-hello-world/issues"
+  },
+  "dependencies": {
+    "express": "~4.6.1"
+  }
+}

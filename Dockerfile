@@ -13,6 +13,9 @@ RUN su - worker -c "touch ~/.bash_profile"
 # Download and install updates for all currently installed packages
 RUN yum -y update
 
+# Download and install man pages
+RUN yum install -y man
+
 # Enable EPEL
 RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 
@@ -24,12 +27,22 @@ RUN yum install -y nodejs
 
 # Download and activate NVM
 RUN su - worker -c "curl https://raw.githubusercontent.com/creationix/nvm/v0.12.0/install.sh | bash"
-# RUN su - worker -c "echo '[ -s $HOME/.nvm/nvm.sh ] && . $HOME/.nvm/nvm.sh' > .bash_profile"
 RUN su - worker -c ". ~/.bash_profile"
 
-# Install node
+# Install node and set default version
 RUN su - worker -c "nvm install 0.11.13"
 RUN su - worker -c "nvm alias default 0.11.13"
+RUN su - worker -c "nvm use default"
 
-# Start the shell as the worker user
-CMD su - worker
+# Bundle app source
+ADD . /app
+
+# Install app dependencies
+RUN su - worker -c "cd /app; npm install; npm install -g forever"
+
+# Expose port for Node app
+EXPOSE  8080
+
+# Define Command to run app
+# CMD su - worker
+# CMD ["su - worker", "node /app/src/server.js"]
