@@ -13,3 +13,8 @@ Start Docker and export the `DOCKER_HOST` environment variable with the followin
 
 	boot2docker start
 	export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
+
+
+## Starting Node Server
+
+See [Node Server README](app/README.markdown)
