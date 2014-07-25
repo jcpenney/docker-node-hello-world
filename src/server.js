@@ -27,3 +27,5 @@ app.route('*').all(function (req, res, next) {
 });
 
 app.listen(PORT);
+
+console.log("Node server running on port " + PORT);
