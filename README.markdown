@@ -30,5 +30,5 @@ As per [Docker's command line documentation](https://docs.docker.com/reference/c
 
 - the `-d` option launches the container in detached mode (i.e. runs in the background)
 - the `-t` option allocates a pseudo-tty
-- the `-p` option publishes the container's port to the host (i.e. the container's port `8080` will be accessible via the port `49160` of the host IP specified by `boot2docker ip`)
+- the `-p` option publishes the container's port to the host (i.e. the container's port `8080` will be accessible via port `49160` of the host IP printed by the `boot2docker ip` command)
 
