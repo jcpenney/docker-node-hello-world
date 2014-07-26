@@ -20,7 +20,7 @@
   "author": "JCP Innovation",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/jcpenney/docker-node-hello-world/issues"
+    "url": "https://github.com/jcpenney/docker-node-hello-world-issues"
   },
   "dependencies": {
     "express": "~4.6.1"
