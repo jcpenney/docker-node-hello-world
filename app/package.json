@@ -23,6 +23,8 @@
     "url": "https://github.com/jcpenney/docker-node-hello-world-issues"
   },
   "dependencies": {
-    "express": "~4.6.1"
+    "express": "~4.6.1",
+    "mongojs": "~0.13.1",
+    "serve-favicon": "~2.0.1"
   }
 }
