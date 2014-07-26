@@ -19,7 +19,7 @@ MONGO_DOCKERFILE_PATH=$PROJECT_ROOT/mongo
 MONGO_IMAGE_NAME=jcpinnovation/hello-world-mongo
 MONGO_CONTAINER_NAME=mongo_$(timestamp)
 MONGO_HOST_DATA_DIR=$PROJECT_ROOT/mongo/data
-MONGO_CONTAINER_DATA_DIR=/data
+MONGO_CONTAINER_DATA_DIR=/db
 MONGO_HOST_PORT=27017
 MONGO_CONTAINER_PORT=27017
 
@@ -47,7 +47,7 @@ COLOR_CYAN=$'\e[1;36m'
 COLOR_WIPE=$'\e[0m'
 
 #####################################################################
-# Stop all docker containers #
+# Prepration #
 #####################################################################
 
 printf "\n${COLOR_BLUE}Stopping all docker containers ${COLOR_WIPE} \n\n"
@@ -69,9 +69,10 @@ mkdir -p $MONGO_HOST_DATA_DIR
 printf "\n${COLOR_BLUE}Starting mongo container ($MONGO_CONTAINER_NAME): ${COLOR_WIPE} \n"
 printf "${COLOR_BLUE}...host port: $MONGO_HOST_PORT ${COLOR_WIPE} \n"
 printf "${COLOR_BLUE}...container port: $MONGO_CONTAINER_PORT ${COLOR_WIPE} \n"
-printf "${COLOR_BLUE}...host data directory: $MONGO_HOST_DATA_DIR/db ${COLOR_WIPE} \n"
-printf "${COLOR_BLUE}...container data directory: $MONGO_CONTAINER_DATA_DIR/db ${COLOR_WIPE} \n\n"
-docker run -d -p $MONGO_HOST_PORT:$MONGO_CONTAINER_PORT -v $MONGO_HOST_DATA_DIR/db:$MONGO_CONTAINER_DATA_DIR/db --name $MONGO_CONTAINER_NAME $MONGO_IMAGE_NAME
+printf "${COLOR_BLUE}...host data directory: $MONGO_HOST_DATA_DIR ${COLOR_WIPE} \n"
+printf "${COLOR_BLUE}...container data directory: $MONGO_CONTAINER_DATA_DIR ${COLOR_WIPE} \n\n"
+echo docker run -d -p $MONGO_HOST_PORT:$MONGO_CONTAINER_PORT -v $MONGO_HOST_DATA_DIR:$MONGO_CONTAINER_DATA_DIR --name $MONGO_CONTAINER_NAME $MONGO_IMAGE_NAME
+docker run -d -p $MONGO_HOST_PORT:$MONGO_CONTAINER_PORT -v $MONGO_HOST_DATA_DIR:$MONGO_CONTAINER_DATA_DIR --name $MONGO_CONTAINER_NAME $MONGO_IMAGE_NAME
 
 
 # #####################################################################
