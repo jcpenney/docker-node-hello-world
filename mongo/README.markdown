@@ -11,7 +11,7 @@ As per [Docker's command line documentation](https://docs.docker.com/reference/c
 
 To start Mongo, run the following command:
 
-	docker run -d -p 27017:27017 -v mongo/data/db:/data/db --name mongo dockerfile/jcpinnovation/hello-world-mongo	
+	docker run -d -p 27017:27017 -v mongo/data:/db --name mongo dockerfile/jcpinnovation/hello-world-mongo	
 
 	
 As per [Docker's command line documentation](https://docs.docker.com/reference/commandline/cli/#run):

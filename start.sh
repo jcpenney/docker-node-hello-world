@@ -13,7 +13,7 @@ function timestamp {
 # Variables #
 #####################################################################
 
-PROJECT_ROOT=$(cd `dirname ${0}`; pwd)
+PROJECT_ROOT=$(pwd) # $(cd `dirname ${0}`; pwd)
 
 MONGO_DOCKERFILE_PATH=$PROJECT_ROOT/mongo
 MONGO_IMAGE_NAME=jcpinnovation/hello-world-mongo
@@ -52,8 +52,28 @@ COLOR_WIPE=$'\e[0m'
 # Prepration #
 #####################################################################
 
-printf "\n${COLOR_BLUE}Stopping all docker containers ${COLOR_WIPE} \n\n"
-docker stop $(docker ps -a -q)
+{
+  (boot2docker &> /dev/null) && {
+    # if [ $(boot2docker status) = 'running' ]; then
+    #   printf "\n${COLOR_BLUE}Boot2Docker is already running ${COLOR_WIPE} \n"
+    # else
+      printf "\n${COLOR_BLUE}Attempting to (re)start docker with boot2docker ${COLOR_WIPE} \n"
+      boot2docker stop
+      boot2docker start --disksize=60000
+      export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
+      boot2docker ssh 'sudo echo "nameserver 8.8.8.8" > /etc/resolv.conf; sudo /etc/init.d/docker restart; exit'
+      sleep 3
+      printf "\n${COLOR_GREEN}Successfully started Docker ${COLOR_WIPE} \n\n"
+    # fi
+  }
+} || {
+  printf "\n${COLOR_RED}Could not run boot2docker command ${COLOR_WIPE} \n\n"
+}
+
+if [ $(docker ps -q) ]; then
+  printf "\n${COLOR_BLUE}Stopping all docker running containers ${COLOR_WIPE} \n\n"
+  docker stop $(docker ps -q)
+fi
 
 
 #####################################################################
@@ -95,4 +115,4 @@ printf "${COLOR_BLUE}...container port: $NODE_CONTAINER_PORT ${COLOR_WIPE} \n"
 printf "${COLOR_BLUE}...linked mongo container: $MONGO_CONTAINER_NAME ${COLOR_WIPE} \n\n"
 docker run -d -t -p $NODE_HOST_PORT:$NODE_CONTAINER_PORT --link $MONGO_CONTAINER_NAME:mongo --name $NODE_CONTAINER_NAME $NODE_IMAGE_NAME
 
-printf "\n${COLOR_BLUE}App is available at http://$(boot2docker ip 2>/dev/null):$NODE_HOST_PORT ${COLOR_WIPE} \n\n"
+printf "\n${COLOR_GREEN}App is available at http://$(boot2docker ip 2>/dev/null):$NODE_HOST_PORT ${COLOR_WIPE} \n\n"
