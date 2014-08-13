@@ -12,8 +12,7 @@ First, ensure that Docker is installed on your machine. As per [Docker.io's Mac 
 
 ## Starting the App
 
-Mongo requires at least 422MB, which is less than Boot2Docker's default allotment for each virtual machine. To increase the VM's disk space, first run `boot2docker config` to 
-From the project's root, run the following command:
+To start the app, run the following command from the project's root:
 
 	. start.sh
 
