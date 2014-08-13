@@ -22,7 +22,7 @@ var MONGO_URL = "mongodb://mongo:27017/docker-node-hello-world";
 var dbVisits = MongoJS(MONGO_URL).collection('visits');
 
 var app = Express();
-app.use(ServeFavIcon('dummy.ico'));
+app.use(ServeFavIcon(__dirname + '/favicon.ico'));
 app.route('*').all(function (req, res, next) {
 
   dbVisits.save({ dateTime: Date.now() }, function() {
