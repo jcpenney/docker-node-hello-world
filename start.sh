@@ -29,6 +29,12 @@ NODE_CONTAINER_NAME=node_$(timestamp)
 NODE_HOST_PORT=49160
 NODE_CONTAINER_PORT=8080
 
+VARNISH_DOCKERFILE_PATH=$PROJECT_ROOT/varnish
+VARNISH_IMAGE_NAME=jcpinnovation/hello-world-varnish
+VARNISH_CONTAINER_NAME=varnish_$(timestamp)
+VARNISH_HOST_PORT=80
+VARNISH_CONTAINER_PORT=80
+
 SKIP_BUILD_IMAGES=false
 
 # https://www.mkssoftware.com/docs/man1/getopts.1.asp
@@ -115,4 +121,25 @@ printf "${COLOR_BLUE}...container port: $NODE_CONTAINER_PORT ${COLOR_WIPE} \n"
 printf "${COLOR_BLUE}...linked mongo container: $MONGO_CONTAINER_NAME ${COLOR_WIPE} \n\n"
 docker run -d -t -p $NODE_HOST_PORT:$NODE_CONTAINER_PORT --link $MONGO_CONTAINER_NAME:mongo --name $NODE_CONTAINER_NAME $NODE_IMAGE_NAME
 
+
+#####################################################################
+# Varnish #
+#####################################################################
+
+if [ $SKIP_BUILD_IMAGES = true ]; then
+  printf "\n${COLOR_BLUE}Skipping building varnish image ($VARNISH_IMAGE_NAME) ${COLOR_WIPE} \n"
+else
+  printf "\n${COLOR_BLUE}Building varnish image ($VARNISH_IMAGE_NAME) from $VARNISH_DOCKERFILE_PATH/Dockerfile ${COLOR_WIPE} \n\n"
+  docker build -t $VARNISH_IMAGE_NAME $VARNISH_DOCKERFILE_PATH
+fi
+
+printf "\n${COLOR_BLUE}Starting varnish container ($VARNISH_CONTAINER_NAME): ${COLOR_WIPE} \n"
+printf "${COLOR_BLUE}...host port: $VARNISH_HOST_PORT ${COLOR_WIPE} \n"
+printf "${COLOR_BLUE}...container port: $VARNISH_CONTAINER_PORT ${COLOR_WIPE} \n"
+docker run -d -t -p $VARNISH_HOST_PORT -e VARNISH_BACKEND_PORT=$VARNISH_CONTAINER_PORT --name $VARNISH_CONTAINER_NAME $VARNISH_IMAGE_NAME
+
+
+#####################################################################
+
 printf "\n${COLOR_GREEN}App is available at http://$(boot2docker ip 2>/dev/null):$NODE_HOST_PORT ${COLOR_WIPE} \n\n"
+
